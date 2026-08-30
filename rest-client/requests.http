@@ -6,7 +6,12 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "brenno levy",
+  "username": "my_name",
   "email": "email@example.com",
-  "password": "mypass123"
+  "password": "mypass123",
+  "random": "random"
 }
+
+### Read One User
+# @name readOneUser
+GET {{baseUrl}}/user/676767
