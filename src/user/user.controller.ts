@@ -1,15 +1,27 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { CustomParseIntPipe } from '../common/pipes/custom-parse-int-pipe.pipe';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly configService: ConfigService) {}
-  
-  @Get(':id')
-  findOne(@Param('id', CustomParseIntPipe) id: number) {
-    console.log(this.configService.get('TESTE', 'valor padrão'));
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly userService: UserService,
+  ) {}
 
-    return `Olá do usuário #${id}`;
+  @Get()
+  findAll() {
+    return this.userService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findById(id);
+  }
+
+  @Post()
+  create(@Body() dto: CreateUserDto) {
+    return this.userService.create(dto);
   }
 }

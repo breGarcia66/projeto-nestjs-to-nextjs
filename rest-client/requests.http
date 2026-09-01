@@ -12,6 +12,24 @@ Content-Type: application/json
   "random": "random"
 }
 
+
+
+
+### Read All User
+# @name readAllUser
+GET {{baseUrl}}/user
+
 ### Read One User
 # @name readOneUser
-GET {{baseUrl}}/user/676767
+GET {{baseUrl}}/user/b50787b8-2fad-4b36-a4d3-27df978c43f8
+
+### Create User
+# @name createUser
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+  "name": "Brenno Levy",
+  "email": "brennolevy@email.com",
+  "password": "123456"
+}
