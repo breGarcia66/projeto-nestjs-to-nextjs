@@ -6,14 +6,9 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "my_name",
-  "email": "email@example.com",
-  "password": "mypass123",
-  "random": "random"
+  "email": "brennolevy@email.com",
+  "password": "123456"
 }
-
-
-
 
 ### Read All User
 # @name readAllUser
@@ -21,7 +16,11 @@ GET {{baseUrl}}/user
 
 ### Read One User
 # @name readOneUser
-GET {{baseUrl}}/user/b50787b8-2fad-4b36-a4d3-27df978c43f8
+GET {{baseUrl}}/user/a52ae402-2699-40cf-a07a-20f9dc42deb8
+
+### Find By Email
+# @name findByEmail
+GET {{baseUrl}}/user?user=brennolevy@email.com
 
 ### Create User
 # @name createUser
