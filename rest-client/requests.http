@@ -1,5 +1,7 @@
 @baseUrl = http://localhost:3000
 
+@token = {{authLogin.response.body.accessToken}}
+
 ### Auth Login
 # @name authLogin
 POST {{baseUrl}}/auth/login
@@ -17,6 +19,8 @@ GET {{baseUrl}}/user
 ### Read One User
 # @name readOneUser
 GET {{baseUrl}}/user/a52ae402-2699-40cf-a07a-20f9dc42deb8
+Authorization: Bearer {{token}}
+
 
 ### Find By Email
 # @name findByEmail
