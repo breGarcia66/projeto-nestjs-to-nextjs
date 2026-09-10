@@ -24,9 +24,9 @@
     "@nestjs/config": "^12.0.0",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^12.0.1",
-    "@nestjs/mapped-types": "*",
+    "@nestjs/mapped-types": "^12.0.0",
     "@nestjs/passport": "^12.0.0",
-    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/platform-express": "^11.2.3",
     "@nestjs/typeorm": "^12.0.1",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.11.1",
@@ -81,5 +81,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "overrides": {
+    "js-yaml": "^4.3.2"
   }
 }
