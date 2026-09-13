@@ -6,7 +6,7 @@ import { CommonModule } from '../common/common.module.js';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import type { StringValue } from 'ms';
-import { JwtStrategy } from './jwt.strategy.js';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -21,7 +21,9 @@ import { JwtStrategy } from './jwt.strategy.js';
           );
         }
 
-        const expiresIn = configService.get<string>('JWT_EXPIRATION') as StringValue;
+        const expiresIn = configService.get<string>(
+          'JWT_EXPIRATION',
+        ) as StringValue;
 
         return {
           secret,

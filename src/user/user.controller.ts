@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Controller('user')
 export class UserController {
@@ -15,29 +16,41 @@ export class UserController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    const users = await this.userService.findAll();
+    const response: UserResponseDto[] = [];
+
+    users.forEach(user => {
+      let userFounded = new UserResponseDto(user);
+      response.push(userFounded)
+    })
+
+    return response;
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
-    return this.userService.findById(id);
+  async findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+    const user = await this.userService.findById(id);
+    return new UserResponseDto(user);
   }
 
   @Get()
-  findByEmail(@Query('email') email: string) {
-    return this.userService.findByEmail(email);
+  async findByEmail(@Query('email') email: string) {
+    const user = await this.userService.findByEmail(email);
+    return new UserResponseDto(user);
   }
 
   @Post()
-  create(@Body() dto: CreateUserDto) {
-    return this.userService.create(dto);
+  async create(@Body() dto: CreateUserDto) {
+    const user = await this.userService.create(dto);
+    return new UserResponseDto(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('me')
-  update(@Req() req: AuthenticatedRequest, @Body() dto: UpdateUserDto) {
-    return this.userService.update(req.user.id, dto);
+  async update(@Req() req: AuthenticatedRequest, @Body() dto: UpdateUserDto) {
+    const user = await this.userService.update(req.user.id, dto);
+    return new UserResponseDto(user);
   }
 }

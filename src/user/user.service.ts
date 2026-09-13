@@ -38,16 +38,32 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.userRepository.find();
+    const users = await this.userRepository.find();
+
+    if(!users) {
+      throw new NotFoundException('Não há usuário no sistema');
+    }
+
+    return users;
   }
 
   async findById(id: string) {
     const user = await this.userRepository.findOneBy({ id });
+
+    if(!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
     return user;
   }
 
   async findByEmail(email: string) {
     const user = await this.userRepository.findOneBy({ email });
+
+    if(!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
     return user;
   }
 

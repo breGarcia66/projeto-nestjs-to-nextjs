@@ -8,7 +8,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "enzomail@email.enzo",
+  "email": "levygarcia@email.com",
   "password": "123456"
 }
 
@@ -17,8 +17,8 @@ Content-Type: application/json
 GET {{baseUrl}}/user
 
 ### Read One User
-# @name readOneUser
-GET {{baseUrl}}/user/a52ae402-2699-40cf-a07a-20f9dc42deb8
+# @name readOneUserById
+GET {{baseUrl}}/user/80add8ed-8704-4ccb-90a7-5d268b6beff8
 Authorization: Bearer {{token}}
 
 
@@ -32,8 +32,8 @@ POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
-  "name": "Brenno Levy",
-  "email": "brennolevy@email.com",
+  "name": "levy",
+  "email": "levy@email.com",
   "password": "123456"
 }
 
@@ -44,6 +44,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name":"Bananilson Farofino",
-  "email":"bananilson@email.com"
+  "email":"levy@email.com"
 }
