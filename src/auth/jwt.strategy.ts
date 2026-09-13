@@ -25,11 +25,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payLoad: JwtPayload) {
-    const user = await this.userService.findById(payLoad.sub);
+  async validate(payload: JwtPayload) {
+    const user = await this.userService.findById(payload.sub);
 
-    if (!user) {
-      throw new UnauthorizedException('Usuário não logado no sistema');
+    if (!user || user.forceLogout) {
+      throw new UnauthorizedException('Você precisa fazer login');
     }
 
     return user;
