@@ -2,15 +2,7 @@
 
 @token = {{authLogin.response.body.accessToken}}
 
-### Auth Login
-# @name authLogin
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
-
-{
-  "email": "levygarcia@email.com",
-  "password": "123456"
-}
+# ROTAS DE MÉTODO "GET"
 
 ### Read All User
 # @name readAllUser
@@ -24,7 +16,19 @@ Authorization: Bearer {{token}}
 
 ### Find By Email
 # @name findByEmail
-GET {{baseUrl}}/user?user=brennolevy@email.com
+GET {{baseUrl}}/user?email=levy@email.com
+
+# ROTAS DE MÉTODO "POST"
+
+### Auth Login
+# @name authLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "levy@email.com",
+  "password": "mypass123"
+}
 
 ### Create User
 # @name createUser
@@ -37,6 +41,8 @@ Content-Type: application/json
   "password": "123456"
 }
 
+# ROTAS DE MÉTODO "PUT"
+
 ### Update User
 # @name updateUser
 PATCH {{baseUrl}}/user/me
@@ -46,3 +52,15 @@ Authorization: Bearer {{token}}
 {
   "email":"levy@email.com"
 }
+
+### Update Password
+# @name updatePassword
+PATCH {{baseUrl}}/user/me/password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "currentPassword": "mypass12",
+  "newPassword": "mypass123"
+}
+

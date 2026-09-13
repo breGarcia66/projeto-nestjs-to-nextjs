@@ -3,13 +3,15 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from '../common/hashing/hashing.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -101,5 +103,23 @@ export class UserService {
 
   async save(user: User) {
     return this.userRepository.save(user);
+  }
+
+  async updatePassword(id: string, dto: UpdatePasswordDto) {
+    const user = await this.findOneByOrFail({ id });
+    const isCurrentPasswordValid = await this.hashingService.compare(dto.currentPassword, user!.password);
+
+    if(!isCurrentPasswordValid){
+      throw new UnauthorizedException('Senha inválida');
+    }
+
+    if(await this.hashingService.compare(dto.newPassword, user!.password)){
+      throw new ConflictException('Nova senha não pode ser igual a anterior')
+    }
+
+    user!.password = await this.hashingService.hash(dto.newPassword);
+    user!.forceLogout = true;
+
+    return this.save(user!);
   }
 }

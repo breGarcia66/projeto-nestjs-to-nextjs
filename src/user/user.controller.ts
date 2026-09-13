@@ -1,12 +1,22 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import type { AuthenticatedRequest } from '../auth/types/authenticated-request.type';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
-import { AuthGuard } from '@nestjs/passport';
 import { UserResponseDto } from './dto/user-response.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('user')
 export class UserController {
@@ -22,8 +32,8 @@ export class UserController {
 
     users.forEach(user => {
       let userFounded = new UserResponseDto(user);
-      response.push(userFounded)
-    })
+      response.push(userFounded);
+    });
 
     return response;
   }
@@ -35,6 +45,7 @@ export class UserController {
     return new UserResponseDto(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findByEmail(@Query('email') email: string) {
     const user = await this.userService.findByEmail(email);
@@ -51,6 +62,16 @@ export class UserController {
   @Patch('me')
   async update(@Req() req: AuthenticatedRequest, @Body() dto: UpdateUserDto) {
     const user = await this.userService.update(req.user.id, dto);
+    return new UserResponseDto(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me/password')
+  async updatePassword(
+    @Req() req: AuthenticatedRequest,
+    @Body() dto: UpdatePasswordDto,
+  ) {
+    const user = await this.userService.updatePassword(req.user.id, dto);
     return new UserResponseDto(user);
   }
 }
