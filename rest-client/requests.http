@@ -1,7 +1,34 @@
 @baseUrl = http://localhost:3000
 @token = {{authLogin.response.body.accessToken}}
 
-# ROTAS DE MÉTODO "GET"
+@postUuid = {{createPostOwned.response.body.id}}
+@postSlug = {{createPostOwned.response.body.slug}}
+@imagePath = {{uploadImage.response.body.url}}
+@imageUrl = {{baseUrl}}{{imagePath}}
+
+@userNameForTesting = Levy
+@userEmailForTesting = levy@email.com
+@userPasswordForTesting = 123456
+@userNewPasswordForTesting = mypass123
+
+# [AUTH] ===================================================================================
+
+# POST
+
+### Auth Login
+# @name authLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "levy@email.com",
+  "password": "123456"
+}
+
+# [USER] ===================================================================================
+
+
+# GET
 
 ### Read All User
 # @name readAllUser
@@ -17,17 +44,9 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/user/me
 Authorization: Bearer {{token}}
 
-# ROTAS DE MÉTODO "POST"
+# FIM GET
 
-### Auth Login
-# @name authLogin
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
-
-{
-  "email": "levy@email.com",
-  "password": "123456"
-}
+# POST
 
 ### Create User
 # @name createUser
@@ -40,7 +59,9 @@ Content-Type: application/json
   "password": "123456"
 }
 
-# ROTAS DE MÉTODO "PUT"
+# FIM POST
+
+# PATCH
 
 ### Update User
 # @name updateUser
@@ -63,9 +84,108 @@ Authorization: Bearer {{token}}
   "newPassword": "mypass123"
 }
 
-# ROTAS DE MÉTODO "DELETE"
+# FIM PATCH
+
+# DELETE
 
 ### Delete My Account
 # @name deleteMyAccount
 DELETE {{baseUrl}}/user/me
 Authorization: Bearer {{token}}
+
+# FIM DELETE
+
+# [POST] ===================================================================================
+
+# GET
+
+### Read all post public
+# @name readAllPostPublic
+GET {{baseUrl}}/post/
+
+### Read one post public
+# @name readOnePostPublic
+GET {{baseUrl}}/post/{{postSlug}}
+
+### Read all post owned
+# @name readAllPostOwned
+GET {{baseUrl}}/post/me
+Authorization: Bearer {{token}}
+
+### Read one post owned
+# @name readOnePostOwned
+GET {{baseUrl}}/post/me/{{postUuid}}
+Authorization: Bearer {{token}}
+
+# FIM GET
+
+# POST
+
+### Create post owned
+# @name createPostOwned
+POST {{baseUrl}}/post/me
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Título do post",
+  "excerpt": "Excerto",
+  "content": "Conteúdo"
+}
+
+# FIM POST
+
+# PATCH
+
+### Update one post owned
+# @name updateOnePostOwned
+PATCH {{baseUrl}}/post/me/{{postUuid}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "NOVO - Título do post",
+  "excerpt": "NOVO - Excerto",
+  "content": "NOVO - Conteúdo",
+  "published": true
+}
+
+# FIM PATCH
+
+# DELETE
+
+### Delete one post owned
+# @name deleteOnePostOwned
+DELETE {{baseUrl}}/post/me/{{postUuid}}
+Authorization: Bearer {{token}}
+
+# FIM DELETE
+
+# [UPLOAD] ===================================================================================
+
+# GET
+
+### Read Image
+# @name readImage
+GET {{imageUrl}}
+
+# FIM GET
+
+# POST
+
+### Upload Image
+# @name uploadImage
+POST {{baseUrl}}/upload
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----BryenFormBoundary
+
+------BryenFormBoundary
+Content-Disposition: form-data; name="file"; filename="exemplo.png"
+Content-Type: image/png
+
+< ../dev/images/sample-image.jpeg
+------BryenFormBoundary--
+
+# FIM POST
+
+# ================================================================================================
