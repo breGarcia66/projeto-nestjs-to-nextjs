@@ -1,5 +1,4 @@
 @baseUrl = http://localhost:3000
-
 @token = {{authLogin.response.body.accessToken}}
 
 # ROTAS DE MÉTODO "GET"
@@ -10,13 +9,13 @@ GET {{baseUrl}}/user
 
 ### Read One User
 # @name readOneUserById
-GET {{baseUrl}}/user/80add8ed-8704-4ccb-90a7-5d268b6beff8
+GET {{baseUrl}}/user/98da17c4-abd2-4f4f-ac12-e57e4b7b2896
 Authorization: Bearer {{token}}
 
-
-### Find By Email
-# @name findByEmail
-GET {{baseUrl}}/user?email=levy@email.com
+### Read Logged In User
+# @name readLoggedInUser
+GET {{baseUrl}}/user/me
+Authorization: Bearer {{token}}
 
 # ROTAS DE MÉTODO "POST"
 
@@ -27,7 +26,7 @@ Content-Type: application/json
 
 {
   "email": "levy@email.com",
-  "password": "mypass123"
+  "password": "123456"
 }
 
 ### Create User
@@ -60,7 +59,13 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "currentPassword": "mypass12",
+  "currentPassword": "123456",
   "newPassword": "mypass123"
 }
 
+# ROTAS DE MÉTODO "DELETE"
+
+### Delete My Account
+# @name deleteMyAccount
+DELETE {{baseUrl}}/user/me
+Authorization: Bearer {{token}}

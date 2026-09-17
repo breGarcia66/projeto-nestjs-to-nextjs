@@ -30,7 +30,7 @@ export class UserService {
   }
 
   async findOneByOrFail(userData: Partial<User>) {
-    const user = this.userRepository.findOneBy(userData);
+    const user = await this.userRepository.findOneBy(userData);
 
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
@@ -51,16 +51,6 @@ export class UserService {
 
   async findById(id: string) {
     const user = await this.userRepository.findOneBy({ id });
-
-    if(!user) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
-
-    return user;
-  }
-
-  async findByEmail(email: string) {
-    const user = await this.userRepository.findOneBy({ email });
 
     if(!user) {
       throw new NotFoundException('Usuário não encontrado');
@@ -121,5 +111,11 @@ export class UserService {
     user!.forceLogout = true;
 
     return this.save(user!);
+  }
+
+  async remove(id: string) {
+    const user = await this.findOneByOrFail({ id });
+    await this.userRepository.delete({ id });
+    return user;
   }
 }

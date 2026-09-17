@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -18,6 +19,8 @@ import { UserService } from './user.service';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
+import type { Request } from 'express';
+
 @Controller('user')
 export class UserController {
   constructor(
@@ -25,6 +28,9 @@ export class UserController {
     private readonly userService: UserService,
   ) {}
 
+  // ROTAS GET
+
+  // READ ALL
   @Get()
   async findAll() {
     const users = await this.userService.findAll();
@@ -38,6 +44,15 @@ export class UserController {
     return response;
   }
 
+  // READ LOGGED IN USER
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async readLoggedInUser(@Req() req: AuthenticatedRequest) {
+    const user = await this.userService.findOneByOrFail({ id: req.user.id });
+    return new UserResponseDto(user);
+  }
+
+  // READ ONE BY ID
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
@@ -45,18 +60,20 @@ export class UserController {
     return new UserResponseDto(user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  async findByEmail(@Query('email') email: string) {
-    const user = await this.userService.findByEmail(email);
-    return new UserResponseDto(user);
-  }
+
+  // FIM GET
+
+  // ROTAS POST
 
   @Post()
   async create(@Body() dto: CreateUserDto) {
     const user = await this.userService.create(dto);
     return new UserResponseDto(user);
   }
+
+  // FIM POST
+
+  // ROTAS PATCH
 
   @UseGuards(JwtAuthGuard)
   @Patch('me')
@@ -74,4 +91,18 @@ export class UserController {
     const user = await this.userService.updatePassword(req.user.id, dto);
     return new UserResponseDto(user);
   }
+
+  // FIM PATCH
+
+  // ROTAS DELETE
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('me')
+  async deleteMyAccount(@Req() req: AuthenticatedRequest) {
+    const user = await this.userService.remove(req.user.id);
+    return new UserResponseDto(user);
+  }
+
+  // FIM DELETE
 }
+

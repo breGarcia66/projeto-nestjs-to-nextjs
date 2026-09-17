@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async doLogin(loginDto: LoginDto) {
-    const user = await this.userService.findByEmail(loginDto.email);
+    const user = await this.userService.findOneByOrFail({ email: loginDto.email});
     const error = new UnauthorizedException('Usuário ou senha inválidos');
 
     if(!user) {
