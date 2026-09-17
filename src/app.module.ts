@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { Post } from './post/entities/post.entity';
 import { PostModule } from './post/post.module';
+import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -35,8 +35,8 @@ import { UserModule } from './user/user.module';
       }
     })
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
   exports: [],
 })
 export class AppModule {}
