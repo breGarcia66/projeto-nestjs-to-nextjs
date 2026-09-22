@@ -128,9 +128,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "title": "Título do post",
-  "excerpt": "Excerto",
-  "content": "Conteúdo"
+  "title": "Título de teste 4",
+  "excerpt": "Criando post para teste 4",
+  "content": "Testando gerador de slug único"
 }
 
 # FIM POST

@@ -18,8 +18,8 @@ import { UserModule } from './user/user.module';
             type: 'better-sqlite3',
             database: process.env.DB_DATABASE,
             synchronize: process.env.DB_SYNCHRONIZE === '1',
-            autoLoadEntities: process.env.DB_AUTO_RELOAD_ENTITIES === '1'
-          }
+            autoLoadEntities: process.env.DB_AUTO_RELOAD_ENTITIES === '1',
+          };
         }
 
         return {
@@ -28,10 +28,11 @@ import { UserModule } from './user/user.module';
           port: parseInt(process.env.DB_PORT || '5432', 10),
           username: process.env.DB_USERNAME,
           password: process.env.DB_PASSWORD,
-          database: process.env.DB_DATABASE
-        }
-      }
-    })
+          database: process.env.DB_DATABASE,
+          autoLoadEntities: true,
+        };
+      },
+    }),
   ],
   controllers: [],
   providers: [],

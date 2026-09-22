@@ -1,5 +1,14 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm/browser';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from '../../user/entities/user.entity';
 
+@Entity()
 export class Post {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -27,4 +36,7 @@ export class Post {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @ManyToOne(() => User)
+  author!: User;
 }
