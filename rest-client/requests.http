@@ -54,8 +54,8 @@ POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
-  "name": "levy",
-  "email": "levy@email.com",
+  "name": "brenno",
+  "email": "brenno@email.com",
   "password": "123456"
 }
 
@@ -128,9 +128,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "title": "Título de teste 4",
-  "excerpt": "Criando post para teste 4",
-  "content": "Testando gerador de slug único"
+  "title": "Título de teste 6",
+  "excerpt": "Criando post para teste 6",
+  "content": "Testando update de post (antes do update)"
 }
 
 # FIM POST

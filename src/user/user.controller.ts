@@ -55,7 +55,6 @@ export class UserController {
     return new UserResponseDto(user);
   }
 
-
   // FIM GET
 
   // ROTAS POST
